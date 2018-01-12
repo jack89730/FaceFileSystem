@@ -30,12 +30,13 @@ protected:
 protected:
      QTableWidget *m_tableView;
      int m_previousColorRow;
-     QMap <int ,Qt::CheckState> m_checkStateMap; //用来保存选中行号以及对应的选中状态
+
      myApp::FRAME_TYPE m_curretnFrameType;
      int m_columCount;
-
 signals:
     void signal_item_clicked(myApp::FRAME_TYPE);
+    //发射的信号 用于改变头部按钮
+    void signal_item_selected_number(int);
 private slots:
     void mycellEntered(int row, int column);
     void cellClicked(int row, int column);

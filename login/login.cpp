@@ -54,6 +54,10 @@ void Login::initUi()
      ui->BackBtn->hide();
      ui->NextBtn->hide();
      ui->PreviewBtn->hide();
+     ui->StudentPassword->hide();
+     ui->StudentRepassword->hide();
+     ui->StudentPasswordLabel->hide();
+     ui->StudentRepasswordLabel->hide();
      ui->TakingBtn->setDisabled(true);
     //实现圆角
     QBitmap bmp(this->size());
@@ -202,9 +206,12 @@ void Login::readFarme()
 void Login::takingPictures()
 {
     if(ui->TakingBtn->text() == "提交"){
+       hideMessage();
+       saveImage("face.jpg");
        uploadFile();
     }else{
         ui->CancelBtn->show();
+
         showImage(m_resultFace);
 
         m_status  = 1;
@@ -217,6 +224,7 @@ void Login::takingPictures()
 ********************************/
 void Login::closeCamara()
 {
+    hideMessage();
     if(m_status == 1 && ui->CancelBtn->text() == "重新拍照"){
         m_status = 0;
         if(!m_isLogin)
@@ -247,6 +255,7 @@ void Login::closeCamara()
     }
 }
 
+
 void Login::uploadFile()
 {
     //检测网络
@@ -256,42 +265,55 @@ void Login::uploadFile()
         myHelper::ShowMessageBoxInfo("请检查网络连接!","网络异常");
         return;
     }
+    QFile file("face.jpg");
+    if (!file.open(QIODevice::ReadOnly)||file.size()==0)
+    {
+       file.close();
+       return ;
+    }
+    QByteArray fdata = file.readAll();
+    if(fdata.isEmpty()){
+        return;
+    }
+    file.close();
 
-    QByteArray ByteArray;// QByteArray类提供了一个字节数组（字节流）。
-    QBuffer Buffer(&ByteArray,this);
-    Buffer.open(QIODevice::ReadWrite);
-    m_image.save(&Buffer,"JPG");//用于直接将一张图片保存在QByteArray中
+//    QByteArray ByteArray;// QByteArray类提供了一个字节数组（字节流）。对使用自定义数据来操作内存区域是很有用的
+//    QBuffer Buffer(&ByteArray,this);// QBuffer(QByteArray * byteArray, QObject * parent = 0)
+//    Buffer.open(QIODevice::ReadWrite);
+//    m_image.save(&Buffer,"jpeg");//用于直接将一张图片保存在QByteArray中
 
     QUrlQuery params;
-    params.addQueryItem("file",Buffer.data().toBase64());
+    params.addQueryItem("file",fdata.toBase64());
+
     QString postUrl;
     if(m_isLogin) //登录
     {
-        params.addQueryItem("action","login");
-        postUrl = myApp::Api;
+        postUrl = myApp::Api + "login";
     }
     else  //注册
     {
-      params.addQueryItem("action","register");
       params.addQueryItem("number",ui->StudentNumber->text());
       params.addQueryItem("name",ui->StudentName->text());
+      int sex = ui->SexManRadioBtn->isChecked() ? 1 : 2;
+      params.addQueryItem("sex",QString::number(sex));
       params.addQueryItem("grade",ui->StudientGrade->text());
       params.addQueryItem("professional",ui->StudentProfessional->text());
-      params.addQueryItem("password",ui->StudentPassword->text());
-      params.addQueryItem("rePassword",ui->StudentRepassword->text());
-      postUrl = myApp::Api;
+//      params.addQueryItem("password",ui->StudentPassword->text());
+//      params.addQueryItem("password_confirmation",ui->StudentRepassword->text());
+      postUrl = myApp::Api +"register";
     }
-    QString data = params.toString();
+
     QNetworkRequest request;
     request.setUrl(postUrl);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded;charset=utf-8");
-    request.setHeader(QNetworkRequest::ContentLengthHeader, data.size());
 
+
+    request.setHeader(QNetworkRequest::ContentLengthHeader,params.toString().toUtf8().size());
     QTimer *timer = new QTimer(this);
-    timer->setInterval(10000);//10秒
+    timer->setInterval(20000);//10秒
     timer->setSingleShot(true);  // 单次触发
 
-    m_reply = m_networkAccessManager->post(request, params.toString().toUtf8());
+    m_reply = m_networkAccessManager->post(request,params.toString().toUtf8());
 
     QEventLoop loop;
     connect(timer, SIGNAL(timeout()), &loop, SLOT(quit()));
@@ -303,7 +325,7 @@ void Login::uploadFile()
         timer->stop();
         if (m_reply->error() != QNetworkReply::NoError) {
             // 错误处理
-//            qDebug() << "Error String : " << m_reply->errorString();
+            qDebug() << "Error String : " << m_reply->errorString();
              showMessage(m_reply->errorString());
         }
         else
@@ -314,14 +336,38 @@ void Login::uploadFile()
                  QByteArray bytes = m_reply->readAll();
                  QJsonDocument d = QJsonDocument::fromJson(bytes);
                  QJsonObject jsonData = d.object();
-                 //m_user->setShopName(jsonData.value(QString("business_name")).toString());
-                 //this->initData();
+                 qDebug()<<jsonData;
+                 if(jsonData.value(QString("code")).toInt() == 200){
+                     if(m_isLogin){ //登录
+                         if(myHelper::ShowMessageBoxInfo("欢迎使用校内文件管理系统","检测成功") == QDialog::Accepted){
+                                 //初始化用户
 
-                if(myHelper::ShowMessageBoxInfo("欢迎使用校内文件管理系统","检测成功") == QDialog::Accepted){
-                        emit(accept());
-                }
+                                 QJsonObject resultData  =   jsonData.value(QString("data")).toObject();
+                                 QString number = QString::number(resultData.value(QString("number")).toInt());
+                                 QString name = resultData.value(QString("name")).toString();
+                                 int    sex = resultData.value(QString("sex")).toInt();
+                                 QString grade = resultData.value(QString("grade")).toString();
+                                 QString professional =    resultData.value(QString("professional")).toString();
+                                  myApp::User->initData(number,name,sex,grade,professional);
+                                 emit(accept());
+                         }
+                     }else{
+                         if(myHelper::ShowMessageBoxInfo("欢迎使用校内文件管理系统，立即前往登录","注册成功") == QDialog::Accepted){
+                                backToLogin();
+                         }
+                     }
+                 }else{
+                     if(m_isLogin){ //登录
+
+                         if(myHelper::ShowMessageBoxInfo("请调整位置后重试","检测失败") == QDialog::Accepted){
+
+                          }
+                     }else{
+                           showMessage(jsonData.value(QString("message")).toString());
+                     }
+                 }
              }else{
-                 myHelper::ShowMessageBoxInfo("请调整位置后重试","检测失败");
+                 showMessage("网络异常，请稍后再试");
              }
         }
     }
@@ -334,7 +380,14 @@ void Login::uploadFile()
         showMessage("网络连接超时!");
     }
 }
-
+void Login::saveImage(const QString filename)
+{
+    const QPixmap *pixmap = ui->ImageLabel->pixmap();
+    if(pixmap)
+    {
+        pixmap->save(filename);
+    }
+}
 bool Login::checkRegister()
 {
     if(m_message != NULL)
@@ -343,42 +396,115 @@ bool Login::checkRegister()
     QString name = ui->StudentName->text();
     QString grade = ui->StudientGrade->text();
     QString professional  = ui->StudentProfessional->text();
-    QString password = ui->StudentPassword->text();
-    QString rePassword = ui->StudentRepassword->text();
+//    QString password = ui->StudentPassword->text();
+//    QString password_confirmation = ui->StudentRepassword->text();
 
     ui->StudentNumber->setStyleSheet("#StudentNumber{border:1px solid #ccc}");
     ui->StudentName->setStyleSheet("#StudentName{border:1px solid #ccc}");
     ui->StudientGrade->setStyleSheet("#StudientGrade{border:1px solid #ccc}");
     ui->StudentProfessional->setStyleSheet("#StudentProfessional{border:1px solid #ccc}");
-    ui->StudentPassword->setStyleSheet("#StudentPassword{border:1px solid #ccc}");
-    ui->StudentRepassword->setStyleSheet("#StudentRepassword{border:1px solid #ccc}");
+//    ui->StudentPassword->setStyleSheet("#StudentPassword{border:1px solid #ccc}");
+//    ui->StudentRepassword->setStyleSheet("#StudentRepassword{border:1px solid #ccc}");
 
-//    if(number.length() == 0 ){
-//        ui->StudentNumber->setStyleSheet("#StudentNumber{border:1px solid #f2902f}");
-//        return false;
-//    }
-//    if(name.length() == 0 ){
-//        ui->StudentName->setStyleSheet("#StudentName{border:1px solid #f2902f}");
-//        return false;
-//    }
-//    if(grade.length() == 0 ){
-//        ui->StudientGrade->setStyleSheet("#StudientGrade{border:1px solid #f2902f}");
-//        return false;
-//    }
-//    if(professional.length() == 0 ){
-//        ui->StudentProfessional->setStyleSheet("#StudentProfessional{border:1px solid #f2902f}");
-//        return false;
-//    }
+    if(number.length() == 0 ){
+        ui->StudentNumber->setStyleSheet("#StudentNumber{border:1px solid #f2902f}");
+        showMessage("请填写学号");
+        return false;
+    }
+    if(name.length() == 0 ){
+        ui->StudentName->setStyleSheet("#StudentName{border:1px solid #f2902f}");
+        showMessage("请填写姓名");
+        return false;
+    }
+    if(grade.length() == 0 ){
+        ui->StudientGrade->setStyleSheet("#StudientGrade{border:1px solid #f2902f}");
+        showMessage("请填写年级");
+        return false;
+    }
+    if(professional.length() == 0 ){
+        ui->StudentProfessional->setStyleSheet("#StudentProfessional{border:1px solid #f2902f}");
+         showMessage("请填写专业");
+        return false;
+    }
 //    if(password.length() == 0 ){
 //        ui->StudentPassword->setStyleSheet("#StudentPassword{border:1px solid #f2902f}");
+//        showMessage("请填写密码");
 //        return false;
 //    }
-//    if(rePassword.length() == 0 ){
+//    if(password_confirmation.length() == 0 ){
 //        ui->StudentRepassword->setStyleSheet("#StudentRepassword{border:1px solid #f2902f}");
+//        showMessage("请填写确认密码");
 //        return false;
 //    }
 
-    return true;
+//    if(password != password_confirmation){
+//        ui->StudentRepassword->setStyleSheet("#StudentRepassword{border:1px solid #f2902f}");
+//        showMessage("两次密码不一致");
+//        return false;
+//    }
+     QUrlQuery params;
+     params.addQueryItem("file","file");
+     QString postUrl = myApp::Api + "registerPreCheck";
+     params.addQueryItem("number",number);
+     params.addQueryItem("name",name);
+     int sex = ui->SexManRadioBtn->isChecked() ? 1 : 2;
+     params.addQueryItem("sex",QString::number(sex));
+     params.addQueryItem("grade",grade);
+     params.addQueryItem("professional",professional);
+//     params.addQueryItem("password",password);
+//     params.addQueryItem("password_confirmation",password_confirmation);
+     QString data = params.toString();
+     qDebug() <<data;
+     QNetworkRequest request;
+     request.setUrl(postUrl);
+     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded;charset=utf-8");
+     request.setHeader(QNetworkRequest::ContentLengthHeader, data.toUtf8().size());
+     QTimer *timer = new QTimer(this);
+     timer->setInterval(10000);//10秒
+     timer->setSingleShot(true);  // 单次触发
+     m_reply = m_networkAccessManager->post(request, data.toUtf8());
+     QEventLoop loop;
+     connect(timer, SIGNAL(timeout()), &loop, SLOT(quit()));
+     connect(m_reply, SIGNAL(finished()), &loop, SLOT(quit()));
+     timer->start();
+     loop.exec();  // 启动事件循环
+     if (timer->isActive()) // 处理响应
+     {
+         timer->stop();
+         if (m_reply->error() != QNetworkReply::NoError) {
+             // 错误处理
+              showMessage(m_reply->errorString());
+              return false;
+         }
+         else
+         {
+
+              QVariant variant = m_reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+              int nStatusCode = variant.toInt();
+
+               qDebug()<<nStatusCode;
+              if(nStatusCode == 200){
+                  QByteArray bytes = m_reply->readAll();
+                  QJsonDocument d = QJsonDocument::fromJson(bytes);
+                  QJsonObject jsonData = d.object();
+                    qDebug()<<jsonData;
+                  if(jsonData.value(QString("code")).toInt() == 200){
+                      return true;
+                  }else{
+                      showMessage(jsonData.value(QString("message")).toString());
+                      return false;
+                  }
+              }
+         }
+     }
+     else  // 处理超时
+     {
+         disconnect(m_reply, SIGNAL(finished()), &loop,SLOT(quit()));
+         m_reply->abort();
+         m_reply->deleteLater();
+         showMessage("网络连接超时!");
+     }
+    return false;
 }
 
 //注册
@@ -403,7 +529,8 @@ void Login::registerUser()
 //返回登录
 void Login::backToLogin()
 {
-     m_status = 0;
+    hideMessage();
+    m_status = 0;
      m_isLogin = true;
      ui->ImageLabel->hide();
     if(m_timer->isActive())
@@ -434,8 +561,11 @@ void Login::resetForm()
 
 void Login::nextBtnClicked()
 {
+
+    hideMessage();
     if(checkRegister())
     {
+
         ui->TakingBtn->show();
         ui->PreviewBtn->show();
         ui->StudentForm->hide();
@@ -447,6 +577,7 @@ void Login::nextBtnClicked()
 }
 void Login::previewBtnClicked()
 {
+    hideMessage();
     m_status = 0;
     if(m_timer->isActive())
         closeCamara();
@@ -455,6 +586,11 @@ void Login::previewBtnClicked()
     ui->StudentForm->show();
     ui->RegisterFrame->show();
     ui->PreviewBtn->hide();
+    ui->ImageLabel->hide();
+    ui->CancelBtn->setText("取消");
+    ui->TakingBtn->setText("拍照");
+    ui->CancelBtn->hide();
+
     ui->RegisterTitle->setText("第一步：填写基本信息");
 }
 
@@ -471,7 +607,6 @@ void Login::hideMessage()
 {
    if(m_message != NULL)
    {
-
        m_message->setText("");
        m_message->hide();
    }

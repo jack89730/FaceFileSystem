@@ -6,6 +6,7 @@ class FinshedFrame : public ContainerFrame
 {
 public:
     explicit FinshedFrame(QWidget *parent = 0);
+      void initData();
     ~FinshedFrame();
 };
 

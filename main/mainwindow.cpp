@@ -32,23 +32,23 @@ void MainWindow::initContainerFrame()
 {
     m_currentMenuId = 0;
     m_containerFrameMap.clear();
-
-
     m_fileListFrame = new FileListFrame(ui->ContainerFrame);
     m_uploadingFrame = new UploadingFrame(ui->ContainerFrame);
     m_downloadingFrame = new DownloadingFrame(ui->ContainerFrame);
     m_finshedFrame = new FinshedFrame(ui->ContainerFrame);
 
      m_containerFrameMap.insert(0,m_fileListFrame);
-     m_containerFrameMap.insert(1,m_uploadingFrame);
-    m_containerFrameMap.insert(2,m_downloadingFrame);
+     m_containerFrameMap.insert(1,m_downloadingFrame);
+    m_containerFrameMap.insert(2,m_uploadingFrame);
     m_containerFrameMap.insert(3,m_finshedFrame);
 
     connect(m_fileListFrame,SIGNAL(signal_item_clicked(myApp::FRAME_TYPE)),ui->HeaderWidget,SLOT(slot_ContainerFrame_item_clicked(myApp::FRAME_TYPE)));
     connect(m_uploadingFrame,SIGNAL(signal_item_clicked(myApp::FRAME_TYPE)),ui->HeaderWidget,SLOT(slot_ContainerFrame_item_clicked(myApp::FRAME_TYPE)));
     connect(m_downloadingFrame,SIGNAL(signal_item_clicked(myApp::FRAME_TYPE)),ui->HeaderWidget,SLOT(slot_ContainerFrame_item_clicked(myApp::FRAME_TYPE)));
     connect(m_finshedFrame,SIGNAL(signal_item_clicked(myApp::FRAME_TYPE)),ui->HeaderWidget,SLOT(slot_ContainerFrame_item_clicked(myApp::FRAME_TYPE)));
+    //item点击 更改
     connect(ui->LeftMainMenusWidget,SIGNAL(signal_clicked_button_id(myApp::FRAME_TYPE)),ui->HeaderWidget,SLOT(slot_ContainerFrame_item_clicked(myApp::FRAME_TYPE)));
+    //item
 }
 
 void MainWindow::slot_left_menus_clicked(myApp::FRAME_TYPE bt_id){

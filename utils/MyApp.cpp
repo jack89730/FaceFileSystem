@@ -1,6 +1,7 @@
 #include "MyApp.h"
 #include "MyHelper.h"
-
+#include "user/userinfo.h"
+#include "widgets/QProgressBarWithStatus.h"
 
 QString myApp::AppPath = "";
 
@@ -13,10 +14,17 @@ QString myApp::AppStyle = ":/qss/blue.css";
 QString myApp::SqliteDb = "sqlite.db";
 
 QString myApp::ConfigINI = "config.ini";
-QString myApp::Api = "http://172.16.12.11";
+QString myApp::Api = "http://face.wht1314.com/api/";
 
 bool myApp::RememberMe = false;
 bool myApp::AutoRun = false;
+QMap <int ,Qt::CheckState>  myApp::m_fileListCheckStateMap; //用来保存选中行号以及对应的选中状态
+QMap <int ,Qt::CheckState>  myApp::m_downloadListCheckStateMap; //用来保存选中行号以及对应的选中状态
+QMap <int ,Qt::CheckState>  myApp::m_uploadListCheckStateMap; //用来保存选中行号以及对应的选中状态
+QMap <int ,Qt::CheckState>  myApp::m_finshedListCheckStateMap; //用来保存选中行号以及对应的选中状态
+QMap <int, QProgressBarWithStatus*> myApp::m_downloadProgressBar;
+QMap <int, QProgressBarWithStatus*> myApp::m_uploadProgressBar;
+UserInfo * myApp::User  = new UserInfo();
 
 
 QString myApp::GetFileTypeIcon(const QString fileType)

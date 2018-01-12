@@ -60,7 +60,9 @@ SOURCES += main.cpp\
     main/headerframe.cpp \
     widgets/QGroupButtonWithIcon.cpp \
     widgets/QCustomCheckBox.cpp \
-    main/headermenusframe.cpp
+    main/headermenusframe.cpp \
+    widgets/QProgressBarWithStatus.cpp \
+    widgets/QFinshStatus.cpp
 
 HEADERS  += \
     login/login.h \
@@ -85,7 +87,9 @@ HEADERS  += \
     main/headerframe.h \
     widgets/QGroupButtonWithIcon.h \
     widgets/QCustomCheckBox.h \
-    main/headermenusframe.h
+    main/headermenusframe.h \
+    widgets/QProgressBarWithStatus.h \
+    widgets/QFinshStatus.h
 
 FORMS    += \
     myinputbox.ui \
@@ -95,7 +99,9 @@ FORMS    += \
     main/mainwindow.ui \
     main/leftmainmenusframe.ui \
     main/headerframe.ui \
-    main/headermenusframe.ui
+    main/headermenusframe.ui \
+    widgets/QProgressBarWithStatus.ui \
+    widgets/QFinshStatus.ui
 
 RESOURCES += \
     source.qrc

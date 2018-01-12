@@ -147,7 +147,7 @@ border-radius:5px;
 
 #Login QLineEdit,#Register QLineEdit{border:1px solid #ccc}
 
-#Login #LoginBtn,#Login #NextBtn,#Login #BackBtn,#Login #PreviewBtn,#Login #CancelBtn,#Login #TakingBtn, #RegisterBtn,#MyMessageBox QPushButton{
+#Login #LoginBtn,#Login #NextBtn,#Login #BackBtn,#Login #PreviewBtn,#Login #CancelBtn,#Login #TakingBtn, #RegisterBtn,#MyMessageBox QPushButton,#HeaderMenusFrame QPushButton{
 border-style:none;
 border:1px solid #DCDCDC;
 color:#6F6F6F;
@@ -156,22 +156,27 @@ min-height:20px;
 border-radius:5px;
 background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #EEEEEE,stop:1 #E5E5E5);
 }
+#HeaderMenusFrame QPushButton{
+    padding:1px;
+}
+#HeaderMenusFrame #UploadBtn{
 
+}
 
 #QRandProgressBar{
 background-color:#F9F8F7;
 
 }
-#Login #LoginBtn:hover,#Login #NextBtn:hover,#Login #BackBtn:hover,#Login #PreviewBtn:hover,#Login #CancelBtn:hover,#Login #TakingBtn:hover,#RegisterBtn:hover,#MyMessageBox QPushButton:hover{
+#Login #LoginBtn:hover,#Login #NextBtn:hover,#Login #BackBtn:hover,#Login #PreviewBtn:hover,#Login #CancelBtn:hover,#Login #TakingBtn:hover,#RegisterBtn:hover,#MyMessageBox QPushButton:hover,#HeaderMenusFrame QPushButton:hover{
 background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #FCFCFC,stop:1 #F7F7F7);
 }
 
-#Login #LoginBtn:pressed,#Login #NextBtn:pressed,#Login #BackBtn:pressed,#Login #PreviewBtn:pressed,#Login #CancelBtn:pressed,#Login #TakingBtn:pressed,#RegisterBtn:pressed,#MyMessageBox QPushButton:pressed{
+#Login #LoginBtn:pressed,#Login #NextBtn:pressed,#Login #BackBtn:pressed,#Login #PreviewBtn:pressed,#Login #CancelBtn:pressed,#Login #TakingBtn:pressed,#RegisterBtn:pressed,#MyMessageBox QPushButton:pressed,#HeaderMenusFrame QPushButton:pressed{
 background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #EEEEEE,stop:1 #E5E5E5);
 }
 #UserAvatarLabel{
  }
-#Login #LoginBtn:disable,#Login #NextBtn:disable,#Login #BackBtn:disable,#Login #PreviewBtn:disable,#Login #CancelBtn:disable,#Login #TakingBtn:disable,#RegisterBtn:disable,#MyMessageBox QPushButton:disable{
+#Login #LoginBtn:disable,#Login #NextBtn:disable,#Login #BackBtn:disable,#Login #PreviewBtn:disable,#Login #CancelBtn:disable,#Login #TakingBtn:disable,#RegisterBtn:disable,#MyMessageBox QPushButton:disable,#HeaderMenusFrame QPushButton:disable{
 color:#838383;
 background:#F4F4F4;
 }
@@ -283,8 +288,10 @@ background:rgba(229,229,229,255);
 }*/
 
 QTableView::item,QListView::item,QTreeView::item{
-padding:5px;
+padding:0px;
 margin:0px;
+
+white-space:nowrap;
 }
 
 QHeaderView::section,QTableCornerButton:section{
@@ -295,5 +302,23 @@ border:1px solid #ccc;
 border-top:none;
 border-left:none;
 background:rgba(250,250,250,255);
+}
+
+
+QProgressBar{
+background:#F8F8FF;
+border-radius:3px;
+text-align:center;
+font-size: 9px;
+border:1px solid #C2CCD8;
+}
+
+QProgressBar::chunk{
+
+background-color:#6495ED;
+}
+
+QLabel#FileNameLabel{
+    margin-top:3px;
 }
 

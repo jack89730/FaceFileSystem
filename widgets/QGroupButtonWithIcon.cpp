@@ -14,12 +14,14 @@ QGroupButtonWithIcon::QGroupButtonWithIcon(QWidget *parent):QPushButton(parent){
     m_textLabel = new QLabel(this);
     m_textLabel->setMinimumHeight(geometry().size().height()/2);
     m_textLabel->setObjectName("QGroupButtonWithIcon_Text");
+
     //status label;
     m_statusLabel = new QLabel(this);
     m_statusLabel->setObjectName("QGroupButtonWithIcon_Status");
      m_statusLabel->setMinimumHeight(geometry().size().height()/2);
      //m_statusLabel->setMaximumWidth(30);
 
+    m_mainLayout->addStretch(2);//添加Spacer
     m_mainLayout->addWidget(m_iconLabel,1);
     m_mainLayout->addWidget(m_textLabel,5);
     m_mainLayout->addWidget(m_statusLabel,1);

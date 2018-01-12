@@ -2,22 +2,25 @@
 #define USERINFO_H
 #include <QString>
 
+struct STUDENT {
+    int sex ;
+    QString number;
+    QString name;
+    QString grade;
+    QString professional;
+};
+
 class UserInfo
 {
 public:
     UserInfo();
-    int getId();  //获取用户id
-    void setId(const int id);
-    void setName(const QString name);
-    QString getName(); //获取用户名
 
+    void initData(const QString number,const QString name,const int sex,const QString grade, const QString professional);
+    STUDENT getData();
     ~UserInfo();
 private:
 
-    static int m_id; //id
-    static QString m_name;//用户名
-
-
+    STUDENT m_student;
 
 };
 

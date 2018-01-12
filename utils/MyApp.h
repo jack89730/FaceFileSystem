@@ -1,7 +1,9 @@
 #ifndef MYAPP_H
 #define MYAPP_H
 #include <QString>
-
+#include <QMap>
+class UserInfo;
+class QProgressBarWithStatus;
 class myApp
 {
 public:
@@ -19,6 +21,16 @@ public:
     static QString Api;
 
     static bool RememberMe;                //记住我
+    enum FRAME_TYPE{FILELIST = 0,DOWNLOADING,UPLOADING,FINSHED};
+
+    static QMap <int ,Qt::CheckState> m_fileListCheckStateMap; //用来保存选中行号以及对应的选中状态
+    static QMap <int ,Qt::CheckState> m_downloadListCheckStateMap; //用来保存选中行号以及对应的选中状态
+    static QMap <int ,Qt::CheckState> m_uploadListCheckStateMap; //用来保存选中行号以及对应的选中状态
+    static QMap <int ,Qt::CheckState> m_finshedListCheckStateMap; //用来保存选中行号以及对应的选中状态
+
+    static QMap <int,QProgressBarWithStatus*> m_downloadProgressBar;
+    static QMap <int,QProgressBarWithStatus*> m_uploadProgressBar;
+    static UserInfo *User;
 
     static void InitConfig();              //初始化配置文件
 
@@ -26,7 +38,7 @@ public:
     static void WriteConfig(QString const key, QString const value, QString group = QString("AppConfig"));              //写入配置文件
     static bool checkIsFisrtRun();         //检测是否是第一次运行app
     static QString GetFileTypeIcon(QString const fileType);
-    enum FRAME_TYPE{FILELIST = 0,DOWNLOADING,UPLOADING,FINSHED};
+
 };
 
 #endif // MYAPP_H

@@ -20,20 +20,25 @@ HeaderFrame::HeaderFrame(QWidget *parent) :
      m_headerMenusFrame.insert(myApp::FRAME_TYPE::DOWNLOADING,new HeaderMenusFrame(false,myApp::FRAME_TYPE::DOWNLOADING,ui->HeaderMenusWidget));
      m_headerMenusFrame.insert(myApp::FRAME_TYPE::UPLOADING,new HeaderMenusFrame(false,myApp::FRAME_TYPE::UPLOADING,ui->HeaderMenusWidget));
      m_headerMenusFrame.insert(myApp::FRAME_TYPE::FINSHED,new HeaderMenusFrame(false,myApp::FRAME_TYPE::FINSHED,ui->HeaderMenusWidget));
+
 }
 
 void HeaderFrame::slot_ContainerFrame_item_clicked(myApp::FRAME_TYPE type)
 {
+
     QMap<myApp::FRAME_TYPE,HeaderMenusFrame*>::iterator it;
     it = m_headerMenusFrame.begin();
     for(;it != m_headerMenusFrame.end(); it++)
     {
         if(it.key() == type){
            it.value()->setHidden(false);
+           it.value()->update_btns_status();
         }else{
             it.value()->setHidden(true);
         }
     }
+
+
 }
 
 void HeaderFrame::on_HeaderCloseBtn_clicked()

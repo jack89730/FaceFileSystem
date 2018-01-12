@@ -32,6 +32,8 @@ public:
     void resetForm();
     void showImage(cv::Mat mat);
     void detectAndDraw(cv::Mat& img, cv::CascadeClassifier& cascade);
+
+    void saveImage(const QString filename);
     //检测注册表单
     bool checkRegister();
     /***********   解决无边框移动start      **********/

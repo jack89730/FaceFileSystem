@@ -24,6 +24,7 @@ private slots:
 
 private:
     QMap<int,QGroupButtonWithIcon*>m_listMenusMap;
+    int m_currentLeftMenusId;
     Ui::LeftMainMenusFrame *ui;
 };
 

@@ -1,34 +1,23 @@
 #include "userinfo.h"
 
-int UserInfo::m_id = 0;
-QString UserInfo::m_name = "";
+
 
 UserInfo::UserInfo()
 {
 
 }
 
-void UserInfo::setId(const int id)
-{
-    this->m_id = id;
+void UserInfo::initData(const QString number,const QString name,const int sex,const QString grade, const QString professional){
+    m_student.number = number;
+    m_student.name = name;
+    m_student.sex = sex;
+    m_student.grade = grade;
+    m_student.professional = professional;
 }
 
-void UserInfo::setName(const QString name)
-{
-    this->m_name = name;
-}
-
-
-int UserInfo::getId()
-{
-    return this->m_id;
-}
-
-QString UserInfo::getName()
-{
-    return this->m_name;
-}
-
+STUDENT UserInfo::getData(){
+      return m_student;
+ }
 
 UserInfo::~UserInfo()
 {

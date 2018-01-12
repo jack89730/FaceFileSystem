@@ -2,8 +2,7 @@
 #define FILELISTFRAME_H
 
 #include "main/containerframe.h"
-#include <QMap>
-#include <QEvent>
+
 
 
 

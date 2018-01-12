@@ -7,19 +7,19 @@
     <x>0</x>
     <y>0</y>
     <width>600</width>
-    <height>32</height>
+    <height>26</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>600</width>
-    <height>32</height>
+    <height>26</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>16777215</width>
-    <height>32</height>
+    <height>26</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -66,12 +66,50 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>113</width>
-      <height>32</height>
+      <width>80</width>
+      <height>24</height>
      </rect>
     </property>
     <property name="text">
      <string>上传</string>
+    </property>
+    <property name="icon">
+     <iconset resource="../source.qrc">
+      <normaloff>:/image/main/arraw_up.png</normaloff>:/image/main/arraw_up.png</iconset>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="DownloadBtn">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>0</y>
+      <width>80</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>下载</string>
+    </property>
+    <property name="icon">
+     <iconset resource="../source.qrc">
+      <normaloff>:/image/main/arraw_down.png</normaloff>:/image/main/arraw_down.png</iconset>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="DeleteBtn">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>0</y>
+      <width>80</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>删除</string>
+    </property>
+    <property name="icon">
+     <iconset resource="../source.qrc">
+      <normaloff>:/image/main/delete.png</normaloff>:/image/main/delete.png</iconset>
     </property>
    </widget>
   </widget>
@@ -102,6 +140,108 @@
    <property name="frameShadow">
     <enum>QFrame::Raised</enum>
    </property>
+   <widget class="QPushButton" name="DeleteAllBtn_1">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>0</y>
+      <width>80</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>删除全部</string>
+    </property>
+    <property name="icon">
+     <iconset resource="../source.qrc">
+      <normaloff>:/image/main/delete.png</normaloff>:/image/main/delete.png</iconset>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="StartAllBtn_1">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>0</y>
+      <width>80</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>开始全部</string>
+    </property>
+    <property name="icon">
+     <iconset resource="../source.qrc">
+      <normaloff>:/image/main/start.png</normaloff>:/image/main/start.png</iconset>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="PauseAllBtn_1">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>80</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>暂停全部</string>
+    </property>
+    <property name="icon">
+     <iconset resource="../source.qrc">
+      <normaloff>:/image/main/pause.png</normaloff>:/image/main/pause.png</iconset>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="DeleteBtn_1">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>0</y>
+      <width>80</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>删除</string>
+    </property>
+    <property name="icon">
+     <iconset resource="../source.qrc">
+      <normaloff>:/image/main/delete.png</normaloff>:/image/main/delete.png</iconset>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="StartBtn_1">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>0</y>
+      <width>80</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>开始</string>
+    </property>
+    <property name="icon">
+     <iconset resource="../source.qrc">
+      <normaloff>:/image/main/start.png</normaloff>:/image/main/start.png</iconset>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="PauseBtn_1">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>80</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>暂停</string>
+    </property>
+    <property name="icon">
+     <iconset resource="../source.qrc">
+      <normaloff>:/image/main/pause.png</normaloff>:/image/main/pause.png</iconset>
+    </property>
+   </widget>
   </widget>
   <widget class="QFrame" name="MenusFrame_2">
    <property name="geometry">
@@ -130,6 +270,108 @@
    <property name="frameShadow">
     <enum>QFrame::Raised</enum>
    </property>
+   <widget class="QPushButton" name="DeleteBtn_2">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>0</y>
+      <width>80</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>删除</string>
+    </property>
+    <property name="icon">
+     <iconset resource="../source.qrc">
+      <normaloff>:/image/main/delete.png</normaloff>:/image/main/delete.png</iconset>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="StartAllBtn_2">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>0</y>
+      <width>80</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>开始全部</string>
+    </property>
+    <property name="icon">
+     <iconset resource="../source.qrc">
+      <normaloff>:/image/main/start.png</normaloff>:/image/main/start.png</iconset>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="PauseAllBtn_2">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>80</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>暂停全部</string>
+    </property>
+    <property name="icon">
+     <iconset resource="../source.qrc">
+      <normaloff>:/image/main/pause.png</normaloff>:/image/main/pause.png</iconset>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="DeleteAllBtn_2">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>0</y>
+      <width>80</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>删除全部</string>
+    </property>
+    <property name="icon">
+     <iconset resource="../source.qrc">
+      <normaloff>:/image/main/delete.png</normaloff>:/image/main/delete.png</iconset>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="StartBtn_2">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>0</y>
+      <width>80</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>开始</string>
+    </property>
+    <property name="icon">
+     <iconset resource="../source.qrc">
+      <normaloff>:/image/main/start.png</normaloff>:/image/main/start.png</iconset>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="PauseBtn_2">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>80</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>暂停</string>
+    </property>
+    <property name="icon">
+     <iconset resource="../source.qrc">
+      <normaloff>:/image/main/pause.png</normaloff>:/image/main/pause.png</iconset>
+    </property>
+   </widget>
   </widget>
   <widget class="QFrame" name="MenusFrame_3">
    <property name="geometry">
@@ -158,8 +400,61 @@
    <property name="frameShadow">
     <enum>QFrame::Raised</enum>
    </property>
+   <widget class="QPushButton" name="DeleteBtn_4">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>0</y>
+      <width>80</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>删除</string>
+    </property>
+    <property name="icon">
+     <iconset resource="../source.qrc">
+      <normaloff>:/image/main/delete.png</normaloff>:/image/main/delete.png</iconset>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="DownloadBtn_4">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>0</y>
+      <width>80</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>下载</string>
+    </property>
+    <property name="icon">
+     <iconset resource="../source.qrc">
+      <normaloff>:/image/main/arraw_down.png</normaloff>:/image/main/arraw_down.png</iconset>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="UploadBtn_4">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>80</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>上传</string>
+    </property>
+    <property name="icon">
+     <iconset resource="../source.qrc">
+      <normaloff>:/image/main/arraw_up.png</normaloff>:/image/main/arraw_up.png</iconset>
+    </property>
+   </widget>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="../source.qrc"/>
+ </resources>
  <connections/>
 </ui>

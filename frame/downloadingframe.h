@@ -6,6 +6,7 @@ class DownloadingFrame : public ContainerFrame
 {
 public:
     explicit DownloadingFrame(QWidget *parent = 0);
+    void initData();
     ~DownloadingFrame();
 };
 

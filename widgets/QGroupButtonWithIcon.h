@@ -16,7 +16,9 @@ public:
      void setText(const QString title);
      void setFontSize(int size);
      void setIcon(const QPixmap &img);
-     void setStatus(int number);
+     void setStatus(const int number);
+     void incrementStatus(const  int number);
+
      ~QGroupButtonWithIcon();
 public:
     myApp::FRAME_TYPE m_buttonId;

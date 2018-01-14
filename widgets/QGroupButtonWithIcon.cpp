@@ -39,11 +39,19 @@ void QGroupButtonWithIcon::setFontSize(int size){
  void QGroupButtonWithIcon::setIcon(const QPixmap &img)
  {
       m_iconLabel->setPixmap(img);
+      m_statusLabel->setStyleSheet(QString("color:#1C86EE"));
+      m_statusLabel->setAlignment(Qt::AlignCenter);
  }
-void QGroupButtonWithIcon::setStatus(int number)
+void QGroupButtonWithIcon::setStatus(const int number)
 {
-    m_statusLabel->setStyleSheet(QString("background-color:#1C86EE;color:#ffffff;border-radius:%1px").arg(m_statusLabel->geometry().size().height() / 4 ));
-    m_statusLabel->setText(QString(" %1 ").arg(number));
+    QString text = number != 0 ? QString("%1").arg(number) : "";
+    m_statusLabel->setText(text);
+}
+
+void  QGroupButtonWithIcon::incrementStatus(const  int number)
+{
+
+     m_statusLabel->setText(QString("%1").arg(m_statusLabel->text().toInt() + number));
 }
 
 void QGroupButtonWithIcon::setText(const QString title){

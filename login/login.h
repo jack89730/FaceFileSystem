@@ -53,17 +53,17 @@ private slots:
    void readFarme();       // 读取当前帧信息
    void closeCamara();     // 关闭摄像头。
    void takingPictures();  // 拍照
-
+    void paintEvent(QPaintEvent *);
 
 private:
     Ui::Login *ui;
-    UserInfo* m_user;
-    QMessageWidget * m_message;
+
     int m_status;
     bool m_isLogin;
     int m_errorCode;
     QNetworkAccessManager *m_networkAccessManager;
     QNetworkReply *m_reply;
+    QMessageWidget * m_message;
     QTimer    *m_timer;
     CvCapture *m_camera;// 视频获取结构， 用来作为视频获取函数的一个参数
     cv::VideoCapture *m_cap;

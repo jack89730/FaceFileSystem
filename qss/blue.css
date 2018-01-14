@@ -314,11 +314,10 @@ border:1px solid #C2CCD8;
 }
 
 QProgressBar::chunk{
-
 background-color:#6495ED;
 }
-
 QLabel#FileNameLabel{
     margin-top:3px;
 }
-
+/*#Login{background-image:url(":/image/login/bg.jpg")}*/
+/*#Login{background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #DEF0FE,stop:1 #C0DEF6);}*/

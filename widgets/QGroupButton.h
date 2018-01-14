@@ -12,6 +12,10 @@ public:
     explicit QGroupButton(QWidget *parent = 0):QPushButton(parent){
         connect(this,SIGNAL(clicked()),this,SLOT(slot_clicked_button_id()));
     }
+    explicit QGroupButton(int id,QWidget *parent = 0):QPushButton(parent){
+        m_buttonId = id;
+        connect(this,SIGNAL(clicked()),this,SLOT(slot_clicked_button_id()));
+    }
     ~QGroupButton(){}
 public:
     int m_buttonId;

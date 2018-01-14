@@ -117,13 +117,13 @@
         <widget class="QLabel" name="AppTitle">
          <property name="minimumSize">
           <size>
-           <width>200</width>
+           <width>250</width>
            <height>24</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>200</width>
+           <width>250</width>
            <height>24</height>
           </size>
          </property>
@@ -135,7 +135,7 @@
           </font>
          </property>
          <property name="text">
-          <string>校园文件管理系统</string>
+          <string>校园计算机专用文件管理系统</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>

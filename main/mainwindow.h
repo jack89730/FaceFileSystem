@@ -8,8 +8,8 @@
 class ContainerFrame;
 class FileListFrame;
 class DownloadingFrame;
-class FinshedFrame;
 class UploadingFrame;
+class FinshedFrame;
 
 
 namespace Ui {
@@ -24,6 +24,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
 
     void initContainerFrame();
+
     //当前主菜单id
     int m_currentMenuId;
     /***********   解决无边框移动start      **********/
@@ -36,18 +37,19 @@ private slots:
    void slot_app_max();
    //主菜单点击
    void slot_left_menus_clicked(myApp::FRAME_TYPE bt_id);
+   //更新table
+   void slot_update_table(myApp::FRAME_TYPE type);
+   //下载
+   void slot_download_add_item();
 
 private:
     Ui::MainWindow *ui;
 
-    QMap<int,ContainerFrame*>m_containerFrameMap;
-    FileListFrame* m_fileListFrame;
-    DownloadingFrame* m_downloadingFrame;
-    FinshedFrame* m_finshedFrame;
-    UploadingFrame* m_uploadingFrame;
-
-
-
+    QMap<myApp::FRAME_TYPE,ContainerFrame*>m_containerFrameMap;
+    FileListFrame * m_fileListFrame;
+    DownloadingFrame*  m_downloadingFrame;
+    UploadingFrame *m_uploadingFrame;
+    FinshedFrame *m_finshedFrame ;
 
     /***********   解决无边框移动start      **********/
     QPoint  m_MousePos;

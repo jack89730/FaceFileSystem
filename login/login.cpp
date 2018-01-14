@@ -29,10 +29,28 @@ Login::Login(QDialog *parent) :
     myHelper::FormInCenter(this);
     setWindowOpacity(1);
     setWindowFlags(Qt::FramelessWindowHint); //无边框
-
     initUi();
+}
 
-
+void Login::paintEvent(QPaintEvent *)
+{
+    QPixmap covert_pixmap(":/image/login/bg.jpg");
+       QPixmap pixmap(covert_pixmap.width(), covert_pixmap.height());
+       pixmap.fill(Qt::transparent);
+       QPainter painter(&pixmap);
+       QPoint start_point(0, 0);
+       QPoint end_point(0, pixmap.height());
+       //QLinearGradient进行渐变色设置
+       QLinearGradient linear_gradient(start_point, end_point);
+       linear_gradient.setColorAt(0, QColor(255, 255, 255, 50));
+       linear_gradient.setColorAt(0.5, QColor(255, 255, 255, 100));
+       linear_gradient.setColorAt(1, QColor(255, 255, 255, 150));
+       painter.fillRect(this->rect(), QBrush(linear_gradient));
+       painter.setCompositionMode(QPainter::CompositionMode_SourceIn);
+       painter.drawPixmap(0, 0, covert_pixmap);
+       painter.end();
+       QPainter painter2(this);
+       painter2.drawPixmap(0, 0, pixmap);
 }
 
 void Login::initUi()
@@ -40,15 +58,16 @@ void Login::initUi()
 
     m_message = NULL;
     m_errorCode  = 0;
-    m_user = NULL;
+
     m_camera = NULL;
     m_timer   = new QTimer(this);
     ui->TakingBtn->hide();
     ui->CancelBtn->hide();
     ui->ImageLabel->hide();
-    m_status = 0;
-    m_isLogin = true;
-    m_networkAccessManager = new QNetworkAccessManager(this);
+//     ui->ImageLabel->setPixmap(QString(":/image/login/bg.jpg"));
+     m_status = 0;
+     m_isLogin = true;
+     m_networkAccessManager = new QNetworkAccessManager(this);
 
      ui->RegisterFrame->hide();
      ui->BackBtn->hide();
@@ -139,10 +158,8 @@ void Login::detectAndDraw( Mat& img, CascadeClassifier& cascade )
                 hideMessage();
                 ui->TakingBtn->setDisabled(false);
                 cv::resize(faceROI, m_resultFace, Size(340, 400));//调整图像大小为92*112
-
            }else{
                 ui->TakingBtn->setDisabled(true);
-
                 showMessage("未检测到人脸！");
            }
        }
@@ -151,9 +168,7 @@ void Login::detectAndDraw( Mat& img, CascadeClassifier& cascade )
        {
            rectangle(img,*iter,Scalar(0,0,255),2,8); //画出脸部矩形
        }
-
         showImage(img);
-
 }
 
 /*********************************
@@ -193,7 +208,6 @@ void Login::showImage(Mat mat)
 
 void Login::readFarme()
 {
-
     Mat frame;
     *m_cap>>frame;
     detectAndDraw( frame, m_faceCascade );
@@ -208,6 +222,8 @@ void Login::takingPictures()
     if(ui->TakingBtn->text() == "提交"){
        hideMessage();
        saveImage("face.jpg");
+       ui->TakingBtn->setEnabled(false);
+       ui->CancelBtn->setEnabled(false);
        uploadFile();
     }else{
         ui->CancelBtn->show();
@@ -258,6 +274,8 @@ void Login::closeCamara()
 
 void Login::uploadFile()
 {
+
+
     //检测网络
     QNetworkConfigurationManager mgr;
     if(!mgr.isOnline())
@@ -297,7 +315,7 @@ void Login::uploadFile()
       int sex = ui->SexManRadioBtn->isChecked() ? 1 : 2;
       params.addQueryItem("sex",QString::number(sex));
       params.addQueryItem("grade",ui->StudientGrade->text());
-      params.addQueryItem("professional",ui->StudentProfessional->text());
+
 //      params.addQueryItem("password",ui->StudentPassword->text());
 //      params.addQueryItem("password_confirmation",ui->StudentRepassword->text());
       postUrl = myApp::Api +"register";
@@ -347,32 +365,38 @@ void Login::uploadFile()
                                  QString name = resultData.value(QString("name")).toString();
                                  int    sex = resultData.value(QString("sex")).toInt();
                                  QString grade = resultData.value(QString("grade")).toString();
-                                 QString professional =    resultData.value(QString("professional")).toString();
-                                  myApp::User->initData(number,name,sex,grade,professional);
+
+                                  myApp::User->initData(number,name,sex,grade);
                                  emit(accept());
                          }
                      }else{
                          if(myHelper::ShowMessageBoxInfo("欢迎使用校内文件管理系统，立即前往登录","注册成功") == QDialog::Accepted){
-                                backToLogin();
+                             ui->TakingBtn->setEnabled(true);
+                             ui->CancelBtn->setEnabled(true);
+                             backToLogin();
                          }
                      }
                  }else{
                      if(m_isLogin){ //登录
 
                          if(myHelper::ShowMessageBoxInfo("请调整位置后重试","检测失败") == QDialog::Accepted){
-
+                             ui->TakingBtn->setEnabled(true);
+                             ui->CancelBtn->setEnabled(true);
                           }
                      }else{
+
                            showMessage(jsonData.value(QString("message")).toString());
                      }
                  }
              }else{
+
                  showMessage("网络异常，请稍后再试");
              }
         }
     }
     else  // 处理超时
     {
+
         disconnect(m_reply, SIGNAL(finished()), &loop,SLOT(quit()));
         m_reply->abort();
         m_reply->deleteLater();
@@ -395,14 +419,14 @@ bool Login::checkRegister()
     QString number = ui->StudentNumber->text();
     QString name = ui->StudentName->text();
     QString grade = ui->StudientGrade->text();
-    QString professional  = ui->StudentProfessional->text();
+
 //    QString password = ui->StudentPassword->text();
 //    QString password_confirmation = ui->StudentRepassword->text();
 
     ui->StudentNumber->setStyleSheet("#StudentNumber{border:1px solid #ccc}");
     ui->StudentName->setStyleSheet("#StudentName{border:1px solid #ccc}");
     ui->StudientGrade->setStyleSheet("#StudientGrade{border:1px solid #ccc}");
-    ui->StudentProfessional->setStyleSheet("#StudentProfessional{border:1px solid #ccc}");
+
 //    ui->StudentPassword->setStyleSheet("#StudentPassword{border:1px solid #ccc}");
 //    ui->StudentRepassword->setStyleSheet("#StudentRepassword{border:1px solid #ccc}");
 
@@ -421,11 +445,7 @@ bool Login::checkRegister()
         showMessage("请填写年级");
         return false;
     }
-    if(professional.length() == 0 ){
-        ui->StudentProfessional->setStyleSheet("#StudentProfessional{border:1px solid #f2902f}");
-         showMessage("请填写专业");
-        return false;
-    }
+
 //    if(password.length() == 0 ){
 //        ui->StudentPassword->setStyleSheet("#StudentPassword{border:1px solid #f2902f}");
 //        showMessage("请填写密码");
@@ -450,7 +470,7 @@ bool Login::checkRegister()
      int sex = ui->SexManRadioBtn->isChecked() ? 1 : 2;
      params.addQueryItem("sex",QString::number(sex));
      params.addQueryItem("grade",grade);
-     params.addQueryItem("professional",professional);
+
 //     params.addQueryItem("password",password);
 //     params.addQueryItem("password_confirmation",password_confirmation);
      QString data = params.toString();
@@ -473,6 +493,7 @@ bool Login::checkRegister()
          timer->stop();
          if (m_reply->error() != QNetworkReply::NoError) {
              // 错误处理
+
               showMessage(m_reply->errorString());
               return false;
          }
@@ -492,6 +513,7 @@ bool Login::checkRegister()
                       return true;
                   }else{
                       showMessage(jsonData.value(QString("message")).toString());
+
                       return false;
                   }
               }
@@ -499,6 +521,7 @@ bool Login::checkRegister()
      }
      else  // 处理超时
      {
+
          disconnect(m_reply, SIGNAL(finished()), &loop,SLOT(quit()));
          m_reply->abort();
          m_reply->deleteLater();
@@ -554,7 +577,7 @@ void Login::resetForm()
     ui->StudentNumber->setText("");
     ui->StudentName->setText("");
     ui->StudientGrade->setText("");
-    ui->StudentProfessional->setText("");
+
     ui->StudentPassword->setText("");
     ui->StudentRepassword->setText("");
 }
@@ -598,7 +621,8 @@ void Login::previewBtnClicked()
 void Login::showMessage(const QString msg){
     if(m_message == NULL)
         m_message = new QMessageWidget(0,geometry().height() - 23 ,geometry().width(),23,this);
-
+    ui->CancelBtn->setEnabled(true);
+    ui->TakingBtn->setEnabled(true);
     m_message->setText(msg);
     m_message->show();
 }
@@ -627,7 +651,6 @@ void Login::mouseMoveEvent(QMouseEvent *event){
 
 Login::~Login()
 {
-     if(m_user != NULL)
-        delete m_user;
+
     delete ui;
 }

@@ -233,6 +233,15 @@ public:
         dt.setDate(date.currentDate());
         return dt.currentMSecsSinceEpoch();
     }
+    static QString GetSystemDateTime()
+    {
+         return QDateTime::currentDateTime().toString("yyyy.MM.dd hh:mm:ss");
+    }
+
+    static QString GetSystemDate()
+    {
+        return QDateTime::currentDateTime().toString("yyyy.MM.dd");
+    }
 
     //设置系统日期时间
     static void SetSystemDateTime(int year, int month, int day, int hour, int min, int sec) {

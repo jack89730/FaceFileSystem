@@ -16,6 +16,7 @@ INCLUDEPATH += /usr/local/include
 INCLUDEPATH += /usr/local/include/opencv
 INCLUDEPATH += /usr/local/include/opencv2
 
+
 LIBS += -L/usr/local/lib \
      -lopencv_core \
      -lopencv_highgui \
@@ -62,7 +63,9 @@ SOURCES += main.cpp\
     widgets/QCustomCheckBox.cpp \
     main/headermenusframe.cpp \
     widgets/QProgressBarWithStatus.cpp \
-    widgets/QFinshStatus.cpp
+    widgets/QFinshStatus.cpp \
+    utils/MySqliteDb.cpp \
+    utils/UploadManager.cpp
 
 HEADERS  += \
     login/login.h \
@@ -89,7 +92,9 @@ HEADERS  += \
     widgets/QCustomCheckBox.h \
     main/headermenusframe.h \
     widgets/QProgressBarWithStatus.h \
-    widgets/QFinshStatus.h
+    widgets/QFinshStatus.h \
+    utils/MySqliteDb.h \
+    utils/UploadManager.h
 
 FORMS    += \
     myinputbox.ui \

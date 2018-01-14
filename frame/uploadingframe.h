@@ -5,10 +5,14 @@
 
 class UploadingFrame : public ContainerFrame
 {
+
 public:
     explicit UploadingFrame(QWidget *parent = 0);
      void initData();
+     void reloadTable();
+     QJsonArray getTableData();
     ~UploadingFrame();
+
 };
 
 #endif // UPLOADINGFRAME_H

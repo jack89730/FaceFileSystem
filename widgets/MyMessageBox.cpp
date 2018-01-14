@@ -62,8 +62,8 @@ void MyMessageBox::InitStyle()
 
     //关联关闭按钮
     connect(ui->Cancel, SIGNAL(clicked()), this, SLOT(close()));
-    connect(ui->Confirm, SIGNAL(clicked()), this, SLOT(on_btnOk_clicked()));
-//    connect(ui->Confirm2, SIGNAL(clicked()), this, SLOT(on_btnOk_clicked()));
+    connect(ui->Confirm, SIGNAL(clicked(bool)), this, SLOT(slot_btn_confirm_clicked(bool)));
+    connect(ui->Confirm2, SIGNAL(clicked(bool)), this, SLOT(slot_btn_confirm_clicked(bool)));
 }
 
 void MyMessageBox::SetMessage(const QString msg,const QString title, int type)
@@ -85,7 +85,7 @@ void MyMessageBox::SetMessage(const QString msg,const QString title, int type)
 
 }
 
-void MyMessageBox::on_btnOk_clicked()
+void MyMessageBox::slot_btn_confirm_clicked(bool)
 {
     done(1);
     this->close();

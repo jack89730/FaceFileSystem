@@ -48,7 +48,6 @@
         <file>image/main/menu_finshed.png</file>
         <file>image/main/menu_uploading.png</file>
         <file>image/type_icon/Grid_ai.png</file>
-        <file>image/type_icon/Grid_android.png</file>
         <file>image/type_icon/Grid_apple.png</file>
         <file>image/type_icon/Grid_bt.png</file>
         <file>image/type_icon/Grid_cad.png</file>
@@ -70,7 +69,6 @@
         <file>image/type_icon/Grid_pdf.png</file>
         <file>image/type_icon/Grid_picture.png</file>
         <file>image/type_icon/Grid_ppt.png</file>
-        <file>image/type_icon/Grid_ps.png</file>
         <file>image/type_icon/Grid_video.png</file>
         <file>image/type_icon/Grid_visio.png</file>
         <file>image/type_icon/Grid_word.png</file>
@@ -83,5 +81,8 @@
         <file>image/main/start.png</file>
         <file>image/main/arraw_down.png</file>
         <file>image/main/arraw_up.png</file>
+        <file>image/type_icon/Grid_apk.png</file>
+        <file>image/type_icon/Grid_psd.png</file>
+        <file>image/login/bg.jpg</file>
     </qresource>
 </RCC>

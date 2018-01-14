@@ -3,19 +3,24 @@
 #include <QApplication>
 #include "utils/MyHelper.h"
 #include "utils/MyApp.h"
+#include "utils/MySqliteDb.h"
 
 
 int main(int argc, char *argv[])
 {
-    if(myApp::checkIsFisrtRun())
+
+    if( myApp::checkIsFisrtRun())
     {
         qDebug()<< "first run";
          myApp::WriteConfig("FirstRun","false");
+         //初始化Sqlite
+         MySqliteDb::getInstance().initDb();
     }
 
     QApplication a(argc, argv);
     Login L;
-    if(1 || L.exec() == QDialog::Accepted){
+    if( L.exec() == QDialog::Accepted){
+        myApp::initData();
          MainWindow w;
          myHelper::SetStyle(myApp::AppStyle);
          //窗体居中显示

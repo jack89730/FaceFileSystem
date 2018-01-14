@@ -7,9 +7,22 @@ QProgressBarWithStatus::QProgressBarWithStatus(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->MessageLabel->hide();
+    ui->StatusLabel->hide();
+}
+
+void QProgressBarWithStatus::setMaximum(int value)
+{
+    ui->ProgressBar->setMaximum(value);
+}
+
+void QProgressBarWithStatus::setValue(int value)
+{
+   ui->ProgressBar->setValue(value);
 }
 
 QProgressBarWithStatus::~QProgressBarWithStatus()
 {
     delete ui;
 }
+
+

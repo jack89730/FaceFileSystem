@@ -25,7 +25,7 @@ protected:
     void mouseReleaseEvent(QMouseEvent *);
 
 private slots:
-    void on_btnOk_clicked();
+    void slot_btn_confirm_clicked(bool);
 
 private:
     Ui::MyMessageBox *ui;

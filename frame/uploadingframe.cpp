@@ -3,13 +3,16 @@
 #include "utils/MyApp.h"
 #include <QJsonObject>
 #include <QJsonArray>
+#include "utils/MySqliteDb.h"
+#include "utils/UploadManager.h"
 
 UploadingFrame::UploadingFrame(QWidget *parent) :
     ContainerFrame(myApp::FRAME_TYPE::UPLOADING,true,parent)
 {
     myApp::m_uploadListCheckStateMap.clear();
     myApp::m_uploadProgressBar.clear();
-    this->initData();
+//    UploadManager::getInstance().clearList();
+
 }
 
 
@@ -17,25 +20,53 @@ void UploadingFrame::initData()
 {
 
     this->initTable();
+    QJsonArray data = this->getTableData();
+     this->setTableData(data);
+//    UploadManager::getInstance().runUpload();
+}
+
+void UploadingFrame::reloadTable()
+{
+
+     myApp::m_uploadListCheckStateMap.clear();
+     myApp::m_uploadProgressBar.clear();
+//     UploadManager::getInstance().clearList();
+     QJsonArray data = this->getTableData();
+     this->setTableData(data);
+//     UploadManager::getInstance().runUpload();
+}
+
+QJsonArray UploadingFrame::getTableData()
+{
 
     QJsonArray  data;
-    QJsonObject sonData;
+//    QJsonObject sonData;
+//    QSqlQuery query = MySqliteDb::getInstance().getUploadFileList();
+//    while(query.next())
+//    {
+//        int id = query.value(QString("id")).toInt();
+//        QString path = query.value(QString("path")).toString();
+//        QString file = query.value(QString("file")).toString();
+//        int size = query.value(QString("size")).toInt();
+//        bool status = query.value(QString("status")).toBool();
+//        int pauseAt = query.value(QString("pause_at")).toInt();
 
-    QStringList fileName,fileType,fileSize,updateTime;
-    fileName  << "LINUX内核设计与实现.pdf"<<"A.Dog's.Purpose.2017.TC720P.英语中字2313123121312312312312312.390影视.mp4"<< "麦可网Android设计模式之美.rar" << "2017-05-13 102847.jpg" << "下载必看文档.txt"<< "问问app-二期-舞文弄墨.docx" <<"zhbj.apk" << "HiJson 2.1.2.exe";
-    fileType  << "pdf" << "video" << "zip" << "picture" << "txt" << "word" << "android" << "exe";
-    fileSize  << "10.01MB" << "1.2G"<< "808.22MB" << "102.00KB" << "10.00B" << "1.11MB" << "6.20MB" << "3.05MB";
-    updateTime  <<  "2018-01-02" << "2018-01-02" << "2018-01-02" << "2018-01-02"<<"2018-01-02"<< "2018-01-02" <<"2018-01-02" << "2018-01-02";
+//        sonData.insert("id",id);
+//        sonData.insert("path",path);
+//        sonData.insert("file",file);
+//        sonData.insert("size",size);
+//        data.append(sonData);
 
-    for(int i = 0; i < fileName.length(); i++){
-        sonData.insert("fileName",fileName.at(i));
-        sonData.insert("fileType",fileType.at(i));
-        sonData.insert("fileSize",fileSize.at(i));
-        sonData.insert("updateTime",updateTime.at(i));
-        data.append(sonData);
-    }
+//        UPLOAD_LIST list;
+//        list.id = id;
+//        list.path = path;
+//        list.file = file;
+//        list.pauseAt = pauseAt;
+//        list.status = status;
+//        UploadManager::getInstance().appendList(list);
+//    }
 
-    this->setTableData(data);
+    return data;
 }
 
 

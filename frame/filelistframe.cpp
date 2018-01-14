@@ -3,37 +3,103 @@
 #include "utils/MyApp.h"
 #include <QJsonObject>
 #include <QJsonArray>
+#include<QTimer>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QNetworkConfigurationManager>
+#include <QNetworkReply>
+#include <QHttpPart>
+#include "utils/MyHelper.h"
+#include "user/userinfo.h"
 
 FileListFrame::FileListFrame(QWidget *parent) :
     ContainerFrame(myApp::FRAME_TYPE::FILELIST,false,parent)
 {
     myApp::m_fileListCheckStateMap.clear();
-    this->initData();
+
 }
 
 void FileListFrame::initData()
 {
 
     this->initTable();
+    QJsonArray data = this->getTableData();
+    if(data.count() != 0)
+        this->setTableData(data);
 
-    QJsonArray  data;
-    QJsonObject sonData;
+}
 
-    QStringList fileName,fileType,fileSize,updateTime;
-    fileName  << "LINUX内核设计与实现.pdf"<<"A.Dog's.Purpose.2017.TC720P.英语中字2313123121312312312312312.390影视.mp4"<< "麦可网Android设计模式之美.rar" << "2017-05-13 102847.jpg" << "下载必看文档.txt"<< "问问app-二期-舞文弄墨.docx" <<"zhbj.apk" << "HiJson 2.1.2.exe";
-    fileType  << "pdf" << "video" << "zip" << "picture" << "txt" << "word" << "android" << "exe";
-    fileSize  << "10.01MB" << "1.2G"<< "808.22MB" << "102.00KB" << "10.00B" << "1.11MB" << "6.20MB" << "3.05MB";
-    updateTime  <<  "2018-01-02" << "2018-01-02" << "2018-01-02" << "2018-01-02"<<"2018-01-02"<< "2018-01-02" <<"2018-01-02" << "2018-01-02";
+void FileListFrame::reloadTable()
+{
+     myApp::m_fileListCheckStateMap.clear();
+     QJsonArray data = this->getTableData();
 
-    for(int i = 0; i < fileName.length(); i++){
-        sonData.insert("fileName",fileName.at(i));
-        sonData.insert("fileType",fileType.at(i));
-        sonData.insert("fileSize",fileSize.at(i));
-        sonData.insert("updateTime",updateTime.at(i));
-        data.append(sonData);
+     this->setTableData(data);
+
+}
+
+QJsonArray FileListFrame::getTableData()
+{
+    QJsonArray resultArr;
+    m_networkAccessManager = new QNetworkAccessManager(this);
+    QNetworkRequest request;
+    request.setUrl(myApp::Api + "getFileLists");
+    QUrlQuery params;
+    QTimer *timer = new QTimer(this);
+    timer->setInterval(10000);//10秒
+    timer->setSingleShot(true);  // 单次触发
+    params.addQueryItem("number",myApp::User->getData().number);
+    m_reply = m_networkAccessManager->post(request,params.toString().toUtf8());
+
+    QEventLoop loop;
+    connect(timer, SIGNAL(timeout()), &loop, SLOT(quit()));
+    connect(m_reply, SIGNAL(finished()), &loop, SLOT(quit()));
+    timer->start();
+    loop.exec();  // 启动事件循环
+
+    if (timer->isActive()) // 处理响应
+    {
+        timer->stop();
+        if (m_reply->error() != QNetworkReply::NoError) {
+            // 错误处理
+            qDebug() << "Error String : " << m_reply->errorString();
+             myHelper::ShowMessageBoxInfo(m_reply->errorString(),"网络异常");
+             return resultArr;
+        }
+        else
+        {
+             QVariant variant = m_reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+             int nStatusCode = variant.toInt();
+             if(nStatusCode == 200){
+                 QByteArray bytes = m_reply->readAll();
+                 QJsonDocument d = QJsonDocument::fromJson(bytes);
+                 QJsonObject jsonData = d.object();
+
+                 if(jsonData.value(QString("code")).toInt() == 200){
+                           resultArr = jsonData.value(QString("data")).toArray();
+                           return resultArr;
+                 }else{
+
+                     myHelper::ShowMessageBoxInfo(jsonData.value(QString("message")).toString(),"数据获取失败");
+
+                 }
+             }else{
+                 myHelper::ShowMessageBoxInfo("请稍后再试","网络异常");
+
+             }
+        }
     }
+    else  // 处理超时
+    {
 
-    this->setTableData(data);
+        disconnect(m_reply, SIGNAL(finished()), &loop,SLOT(quit()));
+        m_reply->abort();
+        m_reply->deleteLater();
+        //qDebug() << "Timeout";
+        myHelper::ShowMessageBoxInfo("网络连接超时","网络异常");
+
+    }
+       return resultArr;
 }
 
 

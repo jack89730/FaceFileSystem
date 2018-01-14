@@ -15,7 +15,6 @@ LeftMainMenusFrame::LeftMainMenusFrame(QWidget *parent) :
     ui->StudentNumberLabel->setText(myApp::User->getData().number);
     ui->StudentNameLabel->setText(myApp::User->getData().name);
     ui->StudentGradeLabel->setText(myApp::User->getData().grade);
-    ui->StudentProfessionalLabel->setText(myApp::User->getData().professional);
 
     m_listMenusMap.clear();
     m_listMenusMap.insert(0,ui->leftMenuFileListButton);
@@ -61,6 +60,21 @@ void LeftMainMenusFrame::slot_group_button_click(myApp::FRAME_TYPE bt_id)
 
     }
 
+}
+//上传
+void LeftMainMenusFrame::slot_upload_file(QString )
+{
+    m_listMenusMap.value(myApp::FRAME_TYPE::UPLOADING)->incrementStatus(1);
+}
+//下载
+void LeftMainMenusFrame::slot_download_file( )
+{
+    m_listMenusMap.value(myApp::FRAME_TYPE::DOWNLOADING)->incrementStatus(1);
+}
+
+void LeftMainMenusFrame::slot_init_left_menus_state_number(myApp::FRAME_TYPE type, int number)
+{
+    m_listMenusMap.value(type)->setStatus(number);
 }
 
 LeftMainMenusFrame::~LeftMainMenusFrame()

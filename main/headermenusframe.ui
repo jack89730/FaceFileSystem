@@ -242,6 +242,19 @@
       <normaloff>:/image/main/pause.png</normaloff>:/image/main/pause.png</iconset>
     </property>
    </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>300</x>
+      <y>2</y>
+      <width>171</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>默认下载地址：E:/download</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QFrame" name="MenusFrame_2">
    <property name="geometry">
@@ -372,6 +385,13 @@
       <normaloff>:/image/main/pause.png</normaloff>:/image/main/pause.png</iconset>
     </property>
    </widget>
+   <zorder>DeleteBtn_2</zorder>
+   <zorder>StartAllBtn_2</zorder>
+   <zorder>PauseAllBtn_2</zorder>
+   <zorder>DeleteAllBtn_2</zorder>
+   <zorder>StartBtn_2</zorder>
+   <zorder>PauseBtn_2</zorder>
+   <zorder>MenusFrame_3</zorder>
   </widget>
   <widget class="QFrame" name="MenusFrame_3">
    <property name="geometry">

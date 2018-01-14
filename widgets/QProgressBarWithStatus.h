@@ -14,7 +14,8 @@ class QProgressBarWithStatus : public QWidget
 public:
     explicit QProgressBarWithStatus(QWidget *parent = 0);
     ~QProgressBarWithStatus();
-
+    void setMaximum(int value);
+    void setValue(int value);
 private:
     Ui::QProgressBarWithStatus *ui;
 };

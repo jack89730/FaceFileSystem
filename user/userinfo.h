@@ -7,7 +7,6 @@ struct STUDENT {
     QString number;
     QString name;
     QString grade;
-    QString professional;
 };
 
 class UserInfo
@@ -15,7 +14,7 @@ class UserInfo
 public:
     UserInfo();
 
-    void initData(const QString number,const QString name,const int sex,const QString grade, const QString professional);
+    void initData(const QString number, const QString name, const int sex, const QString grade);
     STUDENT getData();
     ~UserInfo();
 private:

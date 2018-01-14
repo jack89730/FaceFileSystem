@@ -12,18 +12,17 @@ QT += network
 #endif
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-INCLUDEPATH += /usr/local/include
-INCLUDEPATH += /usr/local/include/opencv
-INCLUDEPATH += /usr/local/include/opencv2
+#ifdef Q_OS_WIN32
+INCLUDEPATH += E:\opencv\include
+INCLUDEPATH += E:\opencv\include\opencv
+INCLUDEPATH += E:\opencv\include\opencv2
 
 
-LIBS += -L/usr/local/lib \
-     -lopencv_core \
-     -lopencv_highgui \
-     -lopencv_imgproc \
-     -lopencv_imgcodecs \
-     -lopencv_videoio   \
-     -lopencv_objdetect
+LIBS += -L E:\opencv\lib\libopencv_*.a
+#endif
+
+
+
 #     -lopencv_dnn  \
 #     -lopencv_flann \
 #     -lopencv_imgcodecs \

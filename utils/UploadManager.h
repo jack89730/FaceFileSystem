@@ -2,6 +2,7 @@
 #define UPLOADMANAGER_H
 #include <QReadLocker>
 #include "utils/MyApp.h"
+#include <QMutex>
 
 struct UPLOAD_LIST
 {

@@ -6,6 +6,8 @@
 #include <QSqlDriver>
 #include <QReadLocker>
 #include "utils/MyApp.h"
+#include <QMutex>
+
 class MySqliteDb
 {
 public:

@@ -1,6 +1,8 @@
 #include "UploadManager.h"
 #include <QDebug>
-
+#include <QMutex>
+#include <QMutexLocker>
+#include <QMutex>
 QMutex UploadManager::mutex;
 
 QAtomicPointer<UploadManager> UploadManager::m_pInstance = 0;

@@ -91,7 +91,6 @@ QString myApp::ReadConfig(QString const key, QString group  )
     if (!myHelper::FileIsExist(fileName)) {
         myApp::InitConfig();
     }
-
     QSettings *set = new QSettings(fileName, QSettings::IniFormat);
      set->beginGroup(group);
      QString res =  set->value(key).toString();

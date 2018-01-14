@@ -79,7 +79,7 @@ private slots:
     //item按钮删除
     void slot_item_delete_bth_clicked(int row);
 
-    void replyFinished(QNetworkReply*);
+    void replyFinished();
     void loadError(QNetworkReply::NetworkError);
     void loadProgress(qint64 bytesSent, qint64 bytesTotal);
     void readContent();

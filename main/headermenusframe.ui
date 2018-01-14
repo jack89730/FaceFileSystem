@@ -252,7 +252,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>默认下载地址：E:/download</string>
+     <string>默认保存地址：E:/download</string>
     </property>
    </widget>
   </widget>

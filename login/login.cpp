@@ -32,26 +32,26 @@ Login::Login(QDialog *parent) :
     initUi();
 }
 
-void Login::paintEvent(QPaintEvent *)
-{
-    QPixmap covert_pixmap(":/image/login/bg.jpg");
-       QPixmap pixmap(covert_pixmap.width(), covert_pixmap.height());
-       pixmap.fill(Qt::transparent);
-       QPainter painter(&pixmap);
-       QPoint start_point(0, 0);
-       QPoint end_point(0, pixmap.height());
-       //QLinearGradient进行渐变色设置
-       QLinearGradient linear_gradient(start_point, end_point);
-       linear_gradient.setColorAt(0, QColor(255, 255, 255, 50));
-       linear_gradient.setColorAt(0.5, QColor(255, 255, 255, 100));
-       linear_gradient.setColorAt(1, QColor(255, 255, 255, 150));
-       painter.fillRect(this->rect(), QBrush(linear_gradient));
-       painter.setCompositionMode(QPainter::CompositionMode_SourceIn);
-       painter.drawPixmap(0, 0, covert_pixmap);
-       painter.end();
-       QPainter painter2(this);
-       painter2.drawPixmap(0, 0, pixmap);
-}
+//void Login::paintEvent(QPaintEvent *)
+//{
+//    QPixmap covert_pixmap(":/image/login/bg.jpg");
+//       QPixmap pixmap(covert_pixmap.width(), covert_pixmap.height());
+//       pixmap.fill(Qt::transparent);
+//       QPainter painter(&pixmap);
+//       QPoint start_point(0, 0);
+//       QPoint end_point(0, pixmap.height());
+//       //QLinearGradient进行渐变色设置
+//       QLinearGradient linear_gradient(start_point, end_point);
+//       linear_gradient.setColorAt(0, QColor(255, 255, 255, 50));
+//       linear_gradient.setColorAt(0.5, QColor(255, 255, 255, 100));
+//       linear_gradient.setColorAt(1, QColor(255, 255, 255, 150));
+//       painter.fillRect(this->rect(), QBrush(linear_gradient));
+//       painter.setCompositionMode(QPainter::CompositionMode_SourceIn);
+//       painter.drawPixmap(0, 0, covert_pixmap);
+//       painter.end();
+//       QPainter painter2(this);
+//       painter2.drawPixmap(0, 0, pixmap);
+//}
 
 void Login::initUi()
 {
@@ -63,8 +63,9 @@ void Login::initUi()
     m_timer   = new QTimer(this);
     ui->TakingBtn->hide();
     ui->CancelBtn->hide();
-    ui->ImageLabel->hide();
-//     ui->ImageLabel->setPixmap(QString(":/image/login/bg.jpg"));
+//    ui->ImageLabel->hide();
+
+
      m_status = 0;
      m_isLogin = true;
      m_networkAccessManager = new QNetworkAccessManager(this);
@@ -215,7 +216,7 @@ void Login::readFarme()
 
 
 /*************************
-********* 拍照 && 上传***********
+********* 识别 && 上传***********
 **************************/
 void Login::takingPictures()
 {
@@ -236,16 +237,16 @@ void Login::takingPictures()
 }
 
 /*******************************
-***关闭摄像头 && 重新拍照，释放资源，必须释放***
+***关闭摄像头 && 重新识别，释放资源，必须释放***
 ********************************/
 void Login::closeCamara()
 {
     hideMessage();
-    if(m_status == 1 && ui->CancelBtn->text() == "重新拍照"){
+    if(m_status == 1 && ui->CancelBtn->text() == "重新识别"){
         m_status = 0;
         if(!m_isLogin)
             ui->CancelBtn->hide();
-        ui->TakingBtn->setText("拍照");
+        ui->TakingBtn->setText("识别");
         ui->CancelBtn->setText("取消");
         openCamera();
     }else{
@@ -262,7 +263,7 @@ void Login::closeCamara()
             ui->RegisterBtn->hide();
             ui->LoginBtn->hide();
             ui->TakingBtn->setText("提交");
-            ui->CancelBtn->setText("重新拍照");
+            ui->CancelBtn->setText("重新识别");
         }
         if(m_timer->isActive())
             m_timer->stop();         // 停止读取数据。
@@ -396,7 +397,6 @@ void Login::uploadFile()
     }
     else  // 处理超时
     {
-
         disconnect(m_reply, SIGNAL(finished()), &loop,SLOT(quit()));
         m_reply->abort();
         m_reply->deleteLater();
@@ -553,12 +553,13 @@ void Login::registerUser()
 void Login::backToLogin()
 {
     hideMessage();
+    ui->ImageLabel->setPixmap(QString(":/image/login/bg.png"));
     m_status = 0;
      m_isLogin = true;
      ui->ImageLabel->hide();
     if(m_timer->isActive())
         closeCamara();
-    ui->TakingBtn->setText("拍照");
+    ui->TakingBtn->setText("识别");
     ui->CancelBtn->setText("取消");
     ui->CancelBtn->hide();
     ui->TakingBtn->hide();
@@ -611,7 +612,7 @@ void Login::previewBtnClicked()
     ui->PreviewBtn->hide();
     ui->ImageLabel->hide();
     ui->CancelBtn->setText("取消");
-    ui->TakingBtn->setText("拍照");
+    ui->TakingBtn->setText("识别");
     ui->CancelBtn->hide();
 
     ui->RegisterTitle->setText("第一步：填写基本信息");

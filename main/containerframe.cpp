@@ -318,18 +318,20 @@ void ContainerFrame::addFinshedItem(const int row, const QString file, int size,
 
 void ContainerFrame::startDownload(const QString file)
 {
-    m_fileFd = openFileForWrite(file);
+    m_fileFd = openFileForWrite(QDir::homePath()+"/"+file);
+    if (!m_fileFd)
+         return;
     QNetworkRequest request;
-
     if(!m_networkAccessManager) m_networkAccessManager = new QNetworkAccessManager(this);
-    m_networkAccessManager->setNetworkAccessible(QNetworkAccessManager::Accessible);
+    //m_networkAccessManager->setNetworkAccessible(QNetworkAccessManager::Accessible);
     request.setUrl(myApp::FileApi + myApp::User->getData().number+"/"+file);
 
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/octet-stream");
+//    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/octet-stream");
 
     m_reply = m_networkAccessManager->get(request);
-    connect((QObject *)m_reply, SIGNAL(readyRead()), this, SLOT(readContent()));
-    connect(m_networkAccessManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(replyFinished(QNetworkReply*)));
+    connect(m_reply, SIGNAL(readyRead()), this, SLOT(readContent()));
+
+    connect(m_reply,SIGNAL(finished()),this,SLOT(replyFinished()));
 
     connect(m_reply, SIGNAL(downloadProgress(qint64 ,qint64)), this, SLOT(loadProgress(qint64 ,qint64)));
 }
@@ -379,7 +381,7 @@ void ContainerFrame::slot_upload_add_item(QString file)
 //       request.setHeader(QNetworkRequest::ContentLengthHeader,params.toString().toUtf8().size());
 
       m_reply = m_networkAccessManager->post(request,params.toString().toUtf8());
-      connect(m_networkAccessManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(replyFinished(QNetworkReply*)));
+      connect(m_reply,SIGNAL(finished()),this,SLOT(replyFinished()));
 
       connect(m_reply, SIGNAL(uploadProgress(qint64 ,qint64)), this, SLOT(loadProgress(qint64 ,qint64)));
 }
@@ -387,6 +389,8 @@ void ContainerFrame::slot_upload_add_item(QString file)
 
 QFile *ContainerFrame::openFileForWrite(const QString &fileName)
 {
+
+
     QScopedPointer<QFile> file(new QFile(fileName));
     if (!file->open(QIODevice::WriteOnly)) {
         QMessageBox::information(this, tr("Error"),
@@ -398,7 +402,7 @@ QFile *ContainerFrame::openFileForWrite(const QString &fileName)
     return file.take();
 }
 
-void ContainerFrame::replyFinished(QNetworkReply* )
+void ContainerFrame::replyFinished( )
 {
     QFileInfo fi;
     if (m_fileFd) {
@@ -418,7 +422,7 @@ void ContainerFrame::replyFinished(QNetworkReply* )
          if(m_currentFrameType == myApp::FRAME_TYPE::DOWNLOADING)
           disconnect(m_reply, SIGNAL(downloadProgress(qint64 ,qint64)), this, SLOT(loadProgress(qint64 ,qint64)));
         disconnect(m_reply, SIGNAL(error(QNetworkReply::NetworkError)),this,SLOT(loadError(QNetworkReply::NetworkError)));
-        disconnect(m_networkAccessManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(replyFinished(QNetworkReply*)));
+        disconnect(m_reply,SIGNAL(finished()),this,SLOT(replyFinished()));
     QVariant variant = m_reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
     int nStatusCode = variant.toInt();
     if(nStatusCode == 200){
@@ -439,7 +443,7 @@ void ContainerFrame::replyFinished(QNetworkReply* )
 
 void ContainerFrame::loadError(QNetworkReply::NetworkError)
 {
-    disconnect(m_networkAccessManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(replyFinished(QNetworkReply*)));
+    disconnect(m_reply,SIGNAL(finished()),this,SLOT(replyFinished()));
     disconnect(m_reply, SIGNAL(uploadProgress(qint64 ,qint64)), this, SLOT(loadProgress(qint64 ,qint64)));
     myHelper::ShowMessageBoxInfo(m_reply->errorString(),"网络异常");
     if(m_fileFd){
@@ -561,7 +565,7 @@ void ContainerFrame::slot_delete_btn_clicked(myApp::FRAME_TYPE type , bool isAll
         {
                 qDebug() << 22;
                 if(m_networkAccessManager)
-                    disconnect(m_networkAccessManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(replyFinished(QNetworkReply*)));
+                    disconnect(m_reply,SIGNAL(finished()),this,SLOT(replyFinished()));
                 if(m_currentFrameType == myApp::FRAME_TYPE::UPLOADING)
                     disconnect(m_reply, SIGNAL(uploadProgress(qint64 ,qint64)), this, SLOT(loadProgress(qint64 ,qint64)));
                 if(m_currentFrameType == myApp::FRAME_TYPE::DOWNLOADING)

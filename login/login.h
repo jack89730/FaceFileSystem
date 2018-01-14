@@ -53,7 +53,7 @@ private slots:
    void readFarme();       // 读取当前帧信息
    void closeCamara();     // 关闭摄像头。
    void takingPictures();  // 拍照
-    void paintEvent(QPaintEvent *);
+//    void paintEvent(QPaintEvent *);
 
 private:
     Ui::Login *ui;

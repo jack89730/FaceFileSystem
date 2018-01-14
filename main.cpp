@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
 
     QApplication a(argc, argv);
     Login L;
-    if( L.exec() == QDialog::Accepted){
+    if(  L.exec() == QDialog::Accepted){
         myApp::initData();
          MainWindow w;
          myHelper::SetStyle(myApp::AppStyle);

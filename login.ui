@@ -78,6 +78,9 @@
     <property name="text">
      <string/>
     </property>
+    <property name="scaledContents">
+     <bool>false</bool>
+    </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
@@ -660,7 +663,7 @@
        </font>
       </property>
       <property name="text">
-       <string>拍照</string>
+       <string>识别</string>
       </property>
      </widget>
     </item>
@@ -672,7 +675,7 @@
        </font>
       </property>
       <property name="text">
-       <string>拍照登录</string>
+       <string>登录</string>
       </property>
      </widget>
     </item>

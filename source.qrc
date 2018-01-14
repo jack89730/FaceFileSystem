@@ -83,6 +83,6 @@
         <file>image/main/arraw_up.png</file>
         <file>image/type_icon/Grid_apk.png</file>
         <file>image/type_icon/Grid_psd.png</file>
-        <file>image/login/bg.jpg</file>
+        <file>image/login/bg.png</file>
     </qresource>
 </RCC>

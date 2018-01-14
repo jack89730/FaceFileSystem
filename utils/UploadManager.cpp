@@ -1,7 +1,7 @@
 #include "UploadManager.h"
 #include <QDebug>
 
-QMutex UploadManager::mutex;
+//QMutex UploadManager::mutex;
 
 QAtomicPointer<UploadManager> UploadManager::m_pInstance = 0;
 
@@ -17,7 +17,7 @@ UploadManager & UploadManager::getInstance()
     //使用双重检测。
     if(!m_pInstance)//第一次检测
     {
-        QMutexLocker locker(&mutex);//加互斥锁。
+//        QMutexLocker locker(&mutex);//加互斥锁。
         if(!m_pInstance)//第二次检测。
             m_pInstance = new UploadManager();
     }

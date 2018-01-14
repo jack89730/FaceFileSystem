@@ -3,7 +3,7 @@
 
 //静态成员变量初始化。
 
-QMutex MySqliteDb::mutex;
+//QMutex MySqliteDb::mutex;
 
 QAtomicPointer<MySqliteDb> MySqliteDb::m_pInstance = 0;
 
@@ -26,7 +26,7 @@ MySqliteDb & MySqliteDb::getInstance()
     //使用双重检测。
     if(!m_pInstance)//第一次检测
     {
-        QMutexLocker locker(&mutex);//加互斥锁。
+//        QMutexLocker locker(&mutex);//加互斥锁。
         if(!m_pInstance)//第二次检测。
             m_pInstance = new MySqliteDb();
     }

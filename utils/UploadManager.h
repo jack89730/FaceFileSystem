@@ -30,7 +30,7 @@ private:
     UploadManager(const UploadManager &);//禁止拷贝构造函数。
     UploadManager & operator=(const UploadManager &);//禁止赋值拷贝函数。
     QReadWriteLock internalMutex;//函数使用的读写锁。
-    static QMutex mutex;//实例互斥锁。
+//    static QMutex mutex;//实例互斥锁。
     static QAtomicPointer<UploadManager> m_pInstance;/*!<使用原子指针,默认初始化为0。*/
     QList<UPLOAD_LIST> m_uploadList;
 

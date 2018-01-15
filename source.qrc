@@ -84,5 +84,6 @@
         <file>image/type_icon/Grid_apk.png</file>
         <file>image/type_icon/Grid_psd.png</file>
         <file>image/login/bg.png</file>
+        <file>image/file.ico</file>
     </qresource>
 </RCC>

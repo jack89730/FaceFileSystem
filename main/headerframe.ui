@@ -117,13 +117,13 @@
         <widget class="QLabel" name="AppTitle">
          <property name="minimumSize">
           <size>
-           <width>250</width>
+           <width>300</width>
            <height>24</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>250</width>
+           <width>300</width>
            <height>24</height>
           </size>
          </property>

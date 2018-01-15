@@ -65,7 +65,8 @@ void Login::initUi()
     ui->CancelBtn->hide();
 //    ui->ImageLabel->hide();
 
-
+     ui->ImageLabel->setPixmap(QString(":/image/login/bg.png"));
+     ui->ImageLabel->setScaledContents(true);
      m_status = 0;
      m_isLogin = true;
      m_networkAccessManager = new QNetworkAccessManager(this);
@@ -198,6 +199,7 @@ void Login::showImage(Mat mat)
     QImage imgScaled ;
     imgScaled = m_image.scaled(ui->ImageLabel->size(),Qt::KeepAspectRatio);
     ui->ImageLabel->clear();
+    ui->ImageLabel->setScaledContents(false);
     ui->ImageLabel->setPixmap(QPixmap::fromImage(imgScaled));  // 将图片显示到label上
     if(ui->ImageLabel->isHidden())ui->ImageLabel->show();
 
@@ -267,8 +269,8 @@ void Login::closeCamara()
         }
         if(m_timer->isActive())
             m_timer->stop();         // 停止读取数据。
-//        if(m_cap)
-//            delete m_cap;
+        if(m_cap)
+            m_cap->release();
     }
 }
 
@@ -548,15 +550,16 @@ void Login::registerUser()
     ui->RegisterTitle->setText("第一步：填写基本信息");
 }
 
-
 //返回登录
 void Login::backToLogin()
 {
     hideMessage();
+    ui->ImageLabel->clear();
     ui->ImageLabel->setPixmap(QString(":/image/login/bg.png"));
+    ui->ImageLabel->setScaledContents(true);
+    ui->ImageLabel->show();
     m_status = 0;
      m_isLogin = true;
-     ui->ImageLabel->hide();
     if(m_timer->isActive())
         closeCamara();
     ui->TakingBtn->setText("识别");
@@ -578,7 +581,6 @@ void Login::resetForm()
     ui->StudentNumber->setText("");
     ui->StudentName->setText("");
     ui->StudientGrade->setText("");
-
     ui->StudentPassword->setText("");
     ui->StudentRepassword->setText("");
 }
@@ -589,7 +591,6 @@ void Login::nextBtnClicked()
     hideMessage();
     if(checkRegister())
     {
-
         ui->TakingBtn->show();
         ui->PreviewBtn->show();
         ui->StudentForm->hide();

@@ -84,6 +84,7 @@ void ContainerFrame::initTable()
     m_tableView->horizontalHeader()->setVisible(true); //显示行表头
     m_tableView->verticalHeader()->setVisible(false);   //隐藏列表头
     m_tableView->setFrameShape(QFrame::NoFrame); //设置无边框
+    m_tableView->setFocusPolicy(Qt::NoFocus);
     m_tableView->setShowGrid(false); //设置不显示格子线
     m_tableView->horizontalHeader()->setHighlightSections(false); //解决表头坍塌
     m_tableView->verticalHeader()->setDefaultSectionSize(50);  //列高

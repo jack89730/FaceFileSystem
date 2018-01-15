@@ -21,19 +21,6 @@ INCLUDEPATH += E:\opencv\include\opencv2
 LIBS += -L E:\opencv\lib\libopencv_*.a
 #endif
 
-#ifdef Q_OS_MAC
-INCLUDEPATH += /usr/local/include
-INCLUDEPATH += /usr/local/include/opencv
-INCLUDEPATH += /usr/local/include/opencv2
-
-
-LIBS += -L/usr/local/lib \
-     -lopencv_core \
-     -lopencv_highgui \
-     -lopencv_imgproc \
-     -lopencv_imgcodecs \
-     -lopencv_videoio   \
-     -lopencv_objdetect
 #     -lopencv_dnn  \
 #     -lopencv_flann \
 #     -lopencv_imgcodecs \
@@ -45,7 +32,6 @@ LIBS += -L/usr/local/lib \
 #     -lopencv_video \
 #     -lopencv_videostab
 
-#endif
 
 TARGET = FaceFileSystem
 TEMPLATE = app
@@ -121,3 +107,5 @@ FORMS    += \
 
 RESOURCES += \
     source.qrc
+
+RC_FILE=icon.rc
